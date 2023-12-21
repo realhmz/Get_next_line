@@ -3,76 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: het-taja <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: het-taja <het-taja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:34:11 by het-taja          #+#    #+#             */
-/*   Updated: 2023/12/12 13:34:13 by het-taja         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:20:54 by het-taja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *ft_strndup(char *s, int n)
+char *ft_strndup(char *s)
 {
-    char *str;
-    int i;
+	char *str;
+	int i;
+	
+	if (!s)
+		return (NULL);
+	
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] && s[i] != '\n')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	if (s[i] && s[i] == '\n')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	
+	str[i] = '\0';
+	return (str);
+}
 
-    if (!(str = (char *)malloc(sizeof(char) * (n + 1))))
-        return (NULL);
-    i = 0;
-    while (i < n)
-    {
-        str[i] = s[i];
-        i++;
-    }
-    str[i] = '\0';
-    return (str);
+int	ft_strnlen(char *save)
+{
+	int	i;
+
+	i = 0;
+	while (save && save[i] && save[i] != '\n')
+		i++;
+	if (save && save[i] == '\n')
+		i++;
+	return (i);
+}
+
+char	*static_modify(char *s)
+{
+	char	*str;
+	int		len;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strnlen(s);
+	if (!s[len])
+	{
+		free(s);
+		return (NULL);
+	}
+	str = malloc(ft_strlen(s) - len + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[len])
+		str[i++] = s[len++];
+	str[i] = '\0';
+	free(s);
+	return (str);
 }
 
 char *get_next_line(int fd)
 {
-    char *line;
-    char *tmp;
-    char *buf;
-    static char *save;
-    int ret;
+	char		*line;
+	static char	*save;
+	char		buff[BUFFER_SIZE];
+	int 		readed;
 
-    if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-        return (NULL);
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || fd > OPEN_MAX)
-        return (NULL);
-    if (!save)
-        save = ft_strnew(0);
-    while (!ft_strchr(save, '\n') && (ret = read(fd, buf, BUFFER_SIZE)) > 0)
-    {
-        buf[ret] = '\0';
-        tmp = ft_strjoin(save, buf);
-        free(save);
-        save = tmp;
-    }
-    free(buf);
-    if (ret < 0)
-        return (NULL);
-    line = ft_strchr(save, '\n');
-    if (line)
-        line = ft_strndup(save, line - save + 1);
-    else
-        line = ft_strndup(save, ft_strlen(save) + 1);
-    tmp = ft_strdup(save + ft_strlen(line));
-    free(save);
-    save = tmp;
-    return (line);
+	readed = 1;
+	if (fd < 0)
+	{
+		return (NULL);
+	}
+	
+		while (!check_new(save) && readed)
+		{
+			readed = read(fd,buff,BUFFER_SIZE);
+			printf("1 ---->%s\n",buff);
+			if (readed == -1)
+				return (NULL);
+			save = ft_strjoin(save,buff);
+			printf("save :%s\n",save);
+		}
+	line = ft_strndup(save);
+	save = static_modify(save);
+	return(line);
 }
 
 int main()
 {
-    int fd;
-    char *line;
+	int fd;
+	char *line;
 
-    fd = open("ss.txt", O_RDONLY);
-    printf("%s",get_next_line(fd));
-
-
-    close(fd);
-    return (0);
+	fd = open("sss.txt", O_RDONLY);
+	line = get_next_line(fd);
+	printf("get next :%s", line);
+	line = get_next_line(fd);
+	printf("get next2 :%s", line);
+	line = get_next_line(fd);
+	printf("get next3 :%s.", line);
+	free(line);
+	close(fd);
+	return (0);
 }

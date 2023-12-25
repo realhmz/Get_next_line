@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: het-taja <het-taja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:34:11 by het-taja          #+#    #+#             */
-/*   Updated: 2023/12/21 18:12:21 by het-taja         ###   ########.fr       */
+/*   Updated: 2023/12/25 23:58:07 by het-taja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strnlen(const char *save)
 {
@@ -76,33 +76,36 @@ char	*static_modify(char *s)
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[OPEN_MAX];
 	char		*returned;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	line = first_line(line, fd);
-	if (!line)
+	line[fd] = first_line(line[fd], fd);
+	if (!line[fd])
 		returned = NULL;
 	else
-		returned = ft_strdup(line);
-	line = static_modify(line);
+		returned = ft_strdup(line[fd]);
+	line[fd] = static_modify(line[fd]);
 	return (returned);
 }
 
-// int main()
-// {
-// 	int fd;
-// 	char *line;
+int main()
+{
+	int fd;
+	char *line;
 
-// 	fd = open("sss.txt", O_RDONLY);
-// 	line = get_next_line(fd);
-// 	printf("get next :%s", line);
-// 	line = get_next_line(fd);
-// 	printf("get next2 :%s", line);
-// 	line = get_next_line(fd);
-// 	printf("get next3 :%s.", line);
-// 	free(line);
-// 	close(fd);
-// 	return (0);
-// }
+
+	fd = open("sss.txt",  O_RDONLY);
+	line = get_next_line(fd);
+	printf("get next :%s", line);
+		free(line);
+	line = get_next_line(fd);
+	printf("get next2 :%s", line);
+		free(line);
+	line = get_next_line(fd);
+	printf("get next3 :%s.", line);
+	free(line);
+	close(fd);
+	return (0);
+}

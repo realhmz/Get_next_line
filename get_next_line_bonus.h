@@ -5,33 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: het-taja <het-taja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 18:25:06 by het-taja          #+#    #+#             */
-/*   Updated: 2023/12/21 18:26:53 by het-taja         ###   ########.fr       */
+/*   Created: 2023/12/30 15:46:34 by het-taja          #+#    #+#             */
+/*   Updated: 2023/12/30 16:32:12 by het-taja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdlib.h>
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 100
+#endif // BUFFER_SIZE
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 12
-
-# endif
-# ifndef OPEN_MAX
-#  define OPEN_MAX 1024
-# endif
-
-int		ft_strlen(char *s);
-int		check_new(char *save);
-char	*ft_strjoin(char *s1, char *s2);
-char	*get_next_line(int fd);
-int		ft_strnlen(const char *save);
-char	*static_modify(char *s);
-char	*ft_strdup(const char *s1);
-
+#ifndef OPEN_MAX
+#define OPEN_MAX 1024
 #endif
+
+char *get_next_line(int fd);
+int	ft_strlen(char *str);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(char *s);

@@ -10,20 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
+
+// All necessary code should be placed within the inclusion guards
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s);
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
-#endif // BUFFER_SIZE
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100
+# endif // BUFFER_SIZE
 
-#ifndef OPEN_MAX
-# define OPEN_MAX 1024
-#endif
+#endif // GET_NEXT_LINE_BONUS_H

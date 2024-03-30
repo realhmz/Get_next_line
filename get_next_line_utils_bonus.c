@@ -6,7 +6,7 @@
 /*   By: het-taja <het-taja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:15:07 by het-taja          #+#    #+#             */
-/*   Updated: 2023/12/30 15:59:01 by het-taja         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:26:11 by het-taja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		len1;
 	int		len2;
 
+	str = NULL;
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	i = 0;
 	if (s1 || s2)
 	{
-		str = malloc(sizeof(char) * (len1 + len2)+1);
+		str = malloc(sizeof(char) * (len1 + len2) + 1);
 		if (!str)
 			return (NULL);
 		while (i < len1)
@@ -47,7 +48,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		len2 = 0;
 		while (i < len1 + ft_strlen(s2))
 			str[i++] = s2[len2++];
-		str[len1+ft_strlen(s2)] = '\0';
+		str[len1 + ft_strlen(s2)] = '\0';
 	}
 	return (str);
 }

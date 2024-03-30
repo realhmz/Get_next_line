@@ -6,7 +6,7 @@
 /*   By: het-taja <het-taja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 15:49:06 by het-taja          #+#    #+#             */
-/*   Updated: 2023/12/30 16:16:21 by het-taja         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:25:46 by het-taja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,26 @@ static int	find_new_line(char *str)
 	}
 	return (-1);
 }
-static char *ft_rest(char *rest)
+
+static char	*ft_rest(char *rest)
 {
 	char	*temp;
 	int		i;
 
-	if(!rest)
+	if (!rest)
 		return (NULL);
 	i = find_new_line(rest);
 	if (i != -1)
 	{
-		temp = ft_strdup(rest+ i + 1);
-		free (rest);
+		temp = ft_strdup(rest + i + 1);
+		free(rest);
 		rest = temp;
 		return (rest);
 	}
-	free (rest);
+	free(rest);
 	return (NULL);
 }
+
 static char	*ft_line(char *rest)
 {
 	char	*line;
@@ -67,10 +69,11 @@ static char	*ft_line(char *rest)
 		i++;
 	}
 	line[i] = '\n';
-	line[i+1] = '\0';
+	line[i + 1] = '\0';
 	return (line);
 }
-static char *ft_read(int fd, char *rest,char *buff)
+
+static char	*ft_read(int fd, char *rest, char *buff)
 {
 	char	*temp;
 	int		i;
@@ -78,25 +81,26 @@ static char *ft_read(int fd, char *rest,char *buff)
 	i = 1;
 	while (i > 0 && find_new_line(rest) == -1)
 	{
-		i = read(fd,buff,BUFFER_SIZE);
-		if (i > 0 )
+		i = read(fd, buff, BUFFER_SIZE);
+		if (i > 0)
 		{
 			buff[i] = '\0';
-			temp = ft_strjoin(rest,buff);
+			temp = ft_strjoin(rest, buff);
 			free(rest);
 			rest = temp;
 		}
 	}
-	free (buff);
+	free(buff);
 	buff = NULL;
 	if (i == -1)
 	{
-		free (rest);
+		free(rest);
 		return (NULL);
 	}
 	return (rest);
 }
-char *get_next_line(int fd)
+
+char	*get_next_line(int fd)
 {
 	static char	*rest;
 	char		*line;
@@ -105,7 +109,7 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = (char *)malloc(BUFFER_SIZE + 1);
-	if(!buff)
+	if (!buff)
 		return (NULL);
 	rest = ft_read(fd, rest, buff);
 	line = ft_line(rest);
@@ -129,7 +133,7 @@ char *get_next_line(int fd)
 // 	char *str3 = get_next_line(fd);
 // 	printf("%s",str3);
 // 	free(str3);
-	
+
 // 	int fd1 = open("get_next_line.c", O_RDONLY);
 // 	char *str4 = get_next_line(fd1);
 // 	printf("%s",str4);
@@ -163,7 +167,7 @@ char *get_next_line(int fd)
 // 	printf("%s",str7);
 // 	char *str8 = get_next_line(fd);
 // 	printf("%s",str8);
-	
+
 // 	// free (str1);
 // 	// free (str2);
 // 	// free (str3);

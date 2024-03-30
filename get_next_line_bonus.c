@@ -102,7 +102,7 @@ static char	*ft_read(int fd, char *buff, char *rest)
 
 char	*get_next_line(int fd)
 {
-	static char	*rest[OPEN_MAX];
+	static char	*rest[1024];
 	char		*line;
 	char		*buff;
 

@@ -27,4 +27,8 @@ char	*ft_strdup(char *s);
 #  define BUFFER_SIZE 100
 # endif // BUFFER_SIZE
 
+# ifdef OPEN_MAX
+#  define OPEN_MAX 1024
+# endif
+
 #endif // GET_NEXT_LINE_BONUS_H
